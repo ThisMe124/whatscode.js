@@ -5,27 +5,7 @@ module.exports = async (m, client, cmd, prefix, getType, db, t) => {
   if (!m || !msg.message) return;
   if (msg.key && msg.key.remoteJid === "status@broadcast") return;
   const type = getType(msg.message);
-  var dy =
-    type === "conversation" && msg.message.conversation
-      ? msg.message.conversation
-      : type == "imageMessage" && msg.message.imageMessage.caption
-      ? msg.message.imageMessage.caption
-      : type == "documentMessage" && msg.message.documentMessage.caption
-      ? msg.message.documentMessage.caption
-      : type == "videoMessage" && msg.message.videoMessage.caption
-      ? msg.message.videoMessage.caption
-      : type == "extendedTextMessage" && msg.message.extendedTextMessage.text
-      ? msg.message.extendedTextMessage.text
-      : type == "listResponseMessage"
-      ? msg.message.listResponseMessage.singleSelectReply.selectedRowId
-      : type == "buttonsResponseMessage" &&
-        msg.message.buttonsResponseMessage.selectedButtonId
-      ? msg.message.buttonsResponseMessage.selectedButtonId
-      : type == "templateButtonReplyMessage" &&
-        msg.message.templateButtonReplyMessage.selectedId
-      ? msg.message.templateButtonReplyMessage.selectedId
-      : "";
-
+  const dy = (type === 'conversation') ? msg.message.conversation : (type == 'imageMessage') ? msg.message.imageMessage.caption : (type == 'videoMessage') ? msg.message.videoMessage.caption : (type == 'extendedTextMessage') ? msg.message.extendedTextMessage.text : (type == 'buttonsResponseMessage') ? msg.message.buttonsResponseMessage.selectedButtonId : (type == 'listResponseMessage') ? msg.message.listResponseMessage.singleSelectReply.selectedRowId : (type == 'templateButtonReplyMessage') ? msg.message.templateButtonReplyMessage.selectedId : (type === 'messageContextInfo') ? (msg.message.buttonsResponseMessage?.selectedButtonId || msg.message.listResponseMessage?.singleSelectReply.selectedRowId) :  ''
   let args;
   let command;
   const valArr = Array.from(cmd.values());
